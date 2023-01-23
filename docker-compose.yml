@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  base: &app_base
+    user: '$UID:0'
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: devspace
+    env_file:
+      - .env.docker
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
+  tests:
+    <<: *app_base
+    environment:
+      - RACK_ENV=test
+    env_file:
+      - .env.docker
